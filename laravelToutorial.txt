@@ -1,0 +1,26 @@
+where alphanumeric numeric alpha wherein('id',["Fsd","dfdsfsd"]) 
+
+for use a name route in blade use like this double curly bracket {{route('route_name')}}
+
+for make a group in route use route::prefix("/post")->group("fsdf");
+for make a apna 404 route so use route::fallback(function(){});
+
+https://themewagon.com/themes/crypgo/
+
+include include if include uless include wehn include("path",[	name=>"dsfdsf"])
+
+
+blade template like for using {{}} for comment {{-- -- }} for html tag {{! !}} and for else if @if @else @endif
+if you want to store php data as a js in template blade thne use @json or use new blade JS::from('php_var_names')
+
+for use special js or css link so we use @stack('script')  @push('script')script.js@endpush
+push or stack ka faida ya h ke hmm isa br br use kr skte ha but section ko br br use nahi kr skte 
+
+
+@hassection check section is or not 
+@setion then @show for dynamic val and using throogh @parent
+{{assest('path')}} for absolute path
+
+
+make controller in laravel make group like that route::controller(fucntion(){})
+for automatic call use __invoke
