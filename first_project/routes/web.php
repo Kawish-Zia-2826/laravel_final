@@ -45,7 +45,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\StudentController;
 
 // Route::view('/', 'home');
 
@@ -77,9 +77,29 @@ Route::prefix('pages')->group(function(){
         Route::get('/services', 'service')->name('services');
         Route::get('/blog', 'blog')->name('blog');
         Route::get('/contact', 'contact')->name('contact');
+        Route::get('/single/{id?}','singleRec')->name('singleRec');
+        Route::get('/update/{id?}', 'updateIceCreame')->name('updateIceCreame');
     });
 });
 Route::get('/',HomeController::class)->name('home');
+
+
+
+Route::prefix('student')->group(function () {
+    Route::controller(StudentController::class)->group(function(){
+    Route::get('/')->name('students');
+    Route::get('/add' ,'add')->name('addStudent');
+    Route::post('/add',  'addStudent')->name('addStudent');
+    Route::get('/data','show');
+    Route::get('/join', 'table_join')->name('table_join');
+    });
+   
+});
+
+
+
+
+
 
 
 

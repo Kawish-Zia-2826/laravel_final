@@ -1,3 +1,8 @@
+laravel doc best for lern so must visit
+
+
+
+
 where alphanumeric numeric alpha wherein('id',["Fsd","dfdsfsd"]) 
 
 for use a name route in blade use like this double curly bracket {{route('route_name')}}
@@ -24,3 +29,229 @@ push or stack ka faida ya h ke hmm isa br br use kr skte ha but section ko br br
 
 make controller in laravel make group like that route::controller(fucntion(){})
 for automatic call use __invoke
+
+======================migration====================
+
+to make php migration use there are 3 steps
+ first use cmd php artisan make:migration create_students_table
+second define table col name and types like $table->id();
+Third use cmd php artisan migrate
+some times we use php artisan migrate --force flag for check status use php artisan migrate:status and for undo use php artisan migrate:rollback php artisan migrate:refresh or reset refresh delete and again migrate or reset delete all migration
+
+
+for update col like add new col of table use php artisan update_students_table  --table=students this flag is important not the name 
+then go to migration and update col 
+last use cmd of php artisan migrate
+
+
+for rename use $table->renameColumn(from,to)
+for drop col use $table->dropColumn(col_name)
+and for multiips drop use col name in array ([])
+for change col length or etc use change after changees like $table->int(id,50)->change()
+
+for changes col order 
+$table->after(password,function(Blueprint){
+$table->string(its show after pass col)
+}) 
+
+
+
+for changes in table 
+ Schema::rename('old table name',new table name)
+Schema::dropIfExists('users');
+
+
+for changing in col like  datatypes  use 
+$table->int(student_id)
+$table->primary(student_id)
+$table->string(email)->unique()->nullable()
+$table->stirng(name)->default("dfdsf")
+
+
+
+
+for make forgein key in migrations use 
+primary key always integer and forgein key also a bigint or int type 
+to make forgin com wrtie $table->forgin(name of col)->refrence(name of col of othre table )->on(other table name)
+
+
+when you use other table primary key as a forgin then you cant delte update col easily if you want so write a code like this first you write a basic code then add in last onUpdate('cascade') and onDelete('cascade')when you use onDelelte and delte one col so link col automaticalty delte . if you want to save null when paretn col delte so use onDelete('set null') 
+also you use onUpdate('restrict') and also use one line code like this cascadeOnDelte();
+
+the short way to make forgin id and refrence
+$table->forginId('std-id')->constraind('students') --->it will make automaticaly std-id to unsignedbigint and find in students table primary key and set into forgin keya sa a refrence
+other short way isss
+$table->unSignedBigInt('student_id')
+$table->forginid('student_id')->constrianed()
+
+
+
+
+when you want to drop or set some data types in laravel like change praimary key and change uninque or etc use like this 
+first make write php artisan make:migration update_table and --table=table_name 
+
+then for priamry write $table->dropPrimary('id')
+for unique write $table->dropUnique('col_name')
+for forgin $table->dropForgin(['forgin_id'])
+
+
+
+
+===============================seeders=======================================
+why we use seeder when we create table and col through migration then for add some data so we use seeder there are 5 step to make seeder and add data into table 
+first create model using this cmd php artisan make:model student -->Note: your table name is plural must be noted your model name same as your table name ut singular
+second seeder cmd php artisan make:seeder StudentSeeder 
+Third add  model file  in seeder like app\models\model_name and use code like this in run func
+student::create(['col_name'=>data,'col_name'=>'data2'])
+fourth bydefualt laravel have seederDatabse file in this file call seeder like this $this->call([StudentSeeder::class]) ===>Note add student seeder class
+fifth php artisan db:seed 
+
+
+for insert  multiple data create a multipe array and use collect method like $students = collect([[data1],[data2]]) and use each method like this $student->each(function($std){seeder_class _name::insert()}) 
+
+
+
+then use both cmd like this php artisan migrate:fresh --seed
+
+for specific seeder use --class=seeder_name
+
+
+
+for using json 
+$json= File::get(path:database/json/json_file_name)
+$student  = collect(json_decode($json))
+$student->each(function($std){student::create(['name'=>$std->name,'email'=>$std->email])})
+===>Noted : when you insert data using create method so its use timesatamp col createAt and updateAt
+
+
+
+for make fake data use like this  	
+student::create(['name'=>fake()->name(),'emai'=>fake->email()->unique()])
+
+
+Note:for fake data see laravel use builtin faker web search and see
+
+
+====================laravel factory====================================
+for make a factoray and dummy data
+ first make a model the cmd is php artisan make:model table_name_in_singular
+
+
+FACTORY AND MODEL CMD
+
+php artisan make:factory factory_name
+php artisan make:factory factory_name --model=model_name
+php artisan make:model table_name_in_singular or wihout s then pass a flag -f
+
+second make seeder php artisan make:seeder StudentSeeder
+third include model file in StudentSeeder file 
+
+
+fourth add dummy data like this write a code like this student::factory(10)->create()
+
+
+fifth add in Seederdatae $this->call([student::class])
+===================for get table data  using Query Builder===================================
+
+Note====================> please set sesion driver as a file 
+
+
+first make a controller
+second inculde DB and use like this functon(){DB::table('table_name')->get();}
+third make a route include controller and call like this Route::get('/',[controllerName::class,'functoin_name'])
+there are some future like mysql DB::tale('table_name')->select()->where()->whereIn()->orderBy()->get()
+
+
+
+for get table data the code  is DB::table('table_name')->get()
+
+for insert data in table code is DB::table('table_name')->insert(['col_name'=>'col_data'])
+
+for update data in table code is DB::table('table_name')->where('id',1)->update(['col_name'=>'col_date'])
+
+for delete data in tabke code is DB::table('table_name')->where('id',1)->delete();
+
+
+NOte=>>>>>>>>>>> when you insert and update so timestams err throw solve this err like go to table Model and write a code public $timestamps = false;
+
+some use full clause insertOrIgnore or upsert insertGetId   updateOrInsert 
+
+
+
+
+============================================laravel Query Builder with HTML forms===================================== 
+crosss atack sa bchne k lye @csrf use kre form ma kuch iss trah 
+<form action='/abc' method="POST">
+@csrf
+</form>
+
+when you use form so we use controller like this
+also use POST method Route::post() 
+function controllerFucn(Request $req)
+
+
+
+==========Laravel Rotuer Method==============
+Rotue::get()  ->>>>>read Data
+Route::post()    insert,delete,update
+Route::put()    update
+Route::delete()  dlete
+Route::patch()   update
+
+Note=>fore use put method use @method('PUT') then use rooute PUT
+
+
+
+
+
+
+
+
+
+
+===================laravel pagination================
+there are thre types of pagination first pagination second simple pagination and third one is cursor pagination cursor and simple both work same but curso faster then simple pagination
+
+
+how to use 
+
+DB::table('table_name')->pagination(range)   dont use get and giv range like 1 2 3
+
+DB::table('table_namn')->simplePaginate(range)
+
+
+DB::table('table_name')->orderBy('id')->cursorPaginate(range)  Note madatory use orederBy with cursor
+
+how to use in blade like this {{$var->links()}}
+
+
+
+
+
+===========laravel Join table=================================
+DB::table('tabel_name')->join('other_table_name','table_col','=','other_table_col')->get()
+
+ineer->join
+leftjoin->leftJoin()
+rightJoin->rightJoin()
+crossJoin->corssJoin()
+
+
+A short way to select data like select('students.*','cities.city_name')
+
+============================union when chunk method===========================
+
+
+var a = DB::table('table_name')
+DB::table('table_2')->union(a)->get()
+
+Note->when you use uniion must col name and datatype and col data range will be same 
+
+
+
+DB::table('table_name')->when(boolean_val,function($a){ $a->where("id','=',1)})->get()
+
+
+DB::table('table_name')->orederBy('id')->chunk(range,funciton($a){return $a}) Note=>must use orederby caluse
+
+
