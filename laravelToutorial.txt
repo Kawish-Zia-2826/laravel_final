@@ -255,3 +255,218 @@ DB::table('table_name')->when(boolean_val,function($a){ $a->where("id','=',1)})-
 DB::table('table_name')->orederBy('id')->chunk(range,funciton($a){return $a}) Note=>must use orederby caluse
 
 
+
+
+
+
+
+============query builder with sql ======================
+
+DB::table('table_name')->select('select * from students where id = ?',[1])
+DB::table('table_name')->insert('insert into students(data1,data2) values(?,?)',['val1',val2])
+
+if you want to see sql query use toSql like ->toSql()
+
+and whereRaw('id = 1') selectRaw('age,name');
+
+
+================================laravel validation =======================================================
+
+also use validation on controller like this
+function user(Request $req){
+$req->validate(['name'=>required,'email'=>required|email])
+}
+
+
+use in blade method of php $error->all()
+
+use old() method  if error thorw so old input filed not be epmty
+
+for custom larvavel validaton like 'username.required'=> 'user is req'  
+===================to make custom validation =================
+php artisan make:request class_ka_nameRequest
+
+after that automatic maka a file where use validation like this
+
+class UserRequest extends FormRequest 
+{
+function rule(){
+return[
+'username'=>'required'
+]
+}
+}
+
+
+use in controller like this 
+
+public function addUser(UserRequest $req){
+return $req->all();
+}
+
+
+
+
+
+============================================controller ==================================================
+there are three types of controller basic controller single controller resource controller 
+
+basic controller => php artisan make:controller yha_pr_model_ka_name_aye_gaController ==>noraml method
+
+single controller => php artisan make:controller yha_pr_model_ka_name_aye_gaController --invokable ==>single method
+
+resource controoler => php artisan make:controller yha_pr_model_ka_name_aye_gaController --resource  =>bna bnaya crud
+
+route of resource controller is Route::resource('url_name',resourceContoller::class)
+
+for multiple resouce controller 
+route => Route::resource([
+'url1'=> yha_pr_model_ka_name_aye_gaController::class,
+'url2'=> yha_pr_model_ka_name_aye_gaController::class
+]
+)
+
+
+
+===================================================================Database Coding===========================================
+					DabaseCoding
+Query Builder											EoquentBuilder
+
+in query builder DB::table('user')->get()
+
+Eloquent ORM
+
+Eloquent Mens : clear and Strong
+ORM Means Object Oriented Mapping
+Easy Syntax
+Complex Relational between mapping
+=>one to One
+=>one to many
+=>many to many
+
+Observe and Scope
+
+
+Eloquent ORM Suport Databasae
+all databse 
+
+
+
+
+php artisan make:model user --controller 
+
+in eloquent process will be same 
+
+User::all()
+User::select('name')->get()
+User::where('id','=','1')
+
+route same as normal reoute and othre id
+route => Route::resource('user',UserController::class)
+
+
+Eloquent ORM CRUD
+
+there are two types of method first one is 
+Normal
+include model 
+$user = new User;
+$user->name = 'abcd';
+$user->save();
+
+
+second one is
+Mass 
+include model
+User::create([
+'username'=>"avd"
+]);
+
+Note if you use this so use guarder method on models like this
+protected $guarded = [];
+protected $fillable = ['name','class']
+
+for update
+
+same as insert
+but we not use and make var like this $user = new User dont use 
+
+for Delete
+
+first one is 
+include model 
+$user = User::find(5)
+$user->delete();
+
+for second method Mass 
+$user  = User::destroy(1);
+$user  = User::destroy([1,23,3,4]);
+
+Note=> it only use id 
+
+the third one is truncate
+User::truncate()
+
+
+
+Eloquent ORM methods
+
+for read
+findOrfail
+chunk()
+lazy()
+cursor()
+chunkById()
+lazyById()
+
+for insert
+firstOrCreate
+
+
+for update
+firstOrUpdate()
+Upsert()
+
+
+for dlete
+
+softDelete()
+
+
+
+
+
+======================================================Laravel Eloquent Models=================================================
+
+ther are some bydefualt future laravel provide like id col and id also a primary key and auto incraemet and created_at updated_at col and so on if you want to cfhange all so use this method 
+
+go to tables model file 
+
+uf you want to chnage id data type uses protected $keyType  = false;
+for chage table name protected $table  = 'new_table_name'
+for change id name  so protected $primaryKey  = 'user_id'
+for chage times stamps public $timestamps = false;
+
+for cange data formet  protected $dateFormat = 'U'
+
+const CREATED_AT  = 'creation'
+const UPDATED_AT  = 'updation'
+
+for by default col property use 
+protected $attributes = [
+'col_name' =>'val'
+]
+
+for change data base protected $connection  = 'mysql'
+
+for bydeafault id  
+Use HasUuids; 36 char
+Use HasUlids; 26 char
+
+
+
+
+
+
+
+
